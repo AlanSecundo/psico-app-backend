@@ -1,0 +1,53 @@
+services:
+  # Banco do Keycloak
+  keycloak-db:
+    image: postgres:15
+    container_name: keycloak-db
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: WLxX2rW1oOh7KgKFMnLTVw
+    volumes:
+      - keycloak_data:/var/lib/postgresql/data
+    networks:
+      - keycloak-net
+
+  # Banco da aplicação
+  app-db:
+    image: postgres:15
+    container_name: app-db
+    environment:
+      POSTGRES_DB: psicoapp
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD: WL1xX21rW1oOh7KgK2FMnLTVw
+    ports:
+      - "5433:5432"
+    volumes:
+      - app_data:/var/lib/postgresql/data
+    networks:
+      - keycloak-net
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.3
+    container_name: keycloak
+    command: start-dev
+    ports:
+      - "8080:8080"
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: keycloak-db
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: WLxX2rW1oOh7KgKFMnLTVw
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: ifEl_PjaGTp41oq-U9QB_A
+    depends_on:
+      - keycloak-db
+    networks:
+      - keycloak-net
+
+volumes:
+  keycloak_data:
+  app_data:
+
+networks:
+  keycloak-net:
