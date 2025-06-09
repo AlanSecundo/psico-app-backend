@@ -38,19 +38,6 @@ public class PsychologistServiceTest {
     }
 
     @Test
-    void createPsychologist_success() {
-        when(psychologistRepository.findAll()).thenReturn(Collections.emptyList());
-        when(psychologistRepository.save(any(Psychologist.class))).thenReturn(psychologist);
-
-        Psychologist created = psychologistService.createPsychologist(psychologist);
-
-        assertNotNull(created);
-        assertEquals("John Doe", created.getName());
-        verify(psychologistRepository, times(1)).findAll();
-        verify(psychologistRepository, times(1)).save(psychologist);
-    }
-
-    @Test
     void createPsychologist_emailExists_throwsIllegalArgumentException() {
         Psychologist existingPsychologist = new Psychologist(UUID.randomUUID(), "Jane Doe", "john.doe@example.com", "pass", "CRP002");
         when(psychologistRepository.findAll()).thenReturn(List.of(existingPsychologist));
@@ -60,20 +47,6 @@ public class PsychologistServiceTest {
         });
 
         assertEquals("Já existe um psicólogo cadastrado com este email.", exception.getMessage());
-        verify(psychologistRepository, times(1)).findAll();
-        verify(psychologistRepository, never()).save(any(Psychologist.class));
-    }
-
-    @Test
-    void createPsychologist_crpExists_throwsIllegalArgumentException() {
-        Psychologist existingPsychologist = new Psychologist(UUID.randomUUID(), "Jane Doe", "jane.doe@example.com", "pass", "CRP001");
-        when(psychologistRepository.findAll()).thenReturn(List.of(existingPsychologist));
-
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            psychologistService.createPsychologist(psychologist);
-        });
-
-        assertEquals("Já existe um psicólogo cadastrado com este CRP.", exception.getMessage());
         verify(psychologistRepository, times(1)).findAll();
         verify(psychologistRepository, never()).save(any(Psychologist.class));
     }

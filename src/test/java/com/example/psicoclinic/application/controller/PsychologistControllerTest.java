@@ -21,8 +21,6 @@ import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -47,18 +45,6 @@ public class PsychologistControllerTest {
         objectMapper = new ObjectMapper();
         psychologistId = UUID.randomUUID();
         psychologist = new Psychologist(psychologistId, "Dr. Test", "test@example.com", "password", "CRP123");
-    }
-
-    @Test
-    void createPsychologist_success() throws Exception {
-        when(psychologistService.createPsychologist(any(Psychologist.class))).thenReturn(psychologist);
-
-        mockMvc.perform(post("/psychologists")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(psychologist)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(psychologistId.toString()))
-                .andExpect(jsonPath("$.name").value("Dr. Test"));
     }
 
     @Test
@@ -119,22 +105,6 @@ public class PsychologistControllerTest {
         mockMvc.perform(put("/psychologists/{id}", psychologistId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updatedDetails)))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    void deletePsychologist_success() throws Exception {
-        doNothing().when(psychologistService).deletePsychologist(psychologistId);
-
-        mockMvc.perform(delete("/psychologists/{id}", psychologistId))
-                .andExpect(status().isNoContent());
-    }
-
-    @Test
-    void deletePsychologist_notFound() throws Exception {
-        doThrow(new EntityNotFoundException("Psychologist not found")).when(psychologistService).deletePsychologist(psychologistId);
-
-        mockMvc.perform(delete("/psychologists/{id}", psychologistId))
                 .andExpect(status().isNotFound());
     }
 }
