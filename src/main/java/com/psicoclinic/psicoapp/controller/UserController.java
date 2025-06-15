@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.psicoclinic.psicoapp.dto.UserDTO; // Added import
 
 @RestController
-@RequestMapping("") // Changed from "/users" to "" to make the endpoint /me
+@RequestMapping("")
 public class UserController {
 
     @GetMapping("/me")
     public UserDTO getUserInfo(@AuthenticationPrincipal Jwt principal) {
-        String id = principal.getSubject(); // 'sub' claim is typically used for user ID
+        String id = principal.getSubject();
         String email = principal.getClaimAsString("email");
-        String name = principal.getClaimAsString("name"); // Or "preferred_username", "given_name", etc.
+        String name = principal.getClaimAsString("name");
 
         return new UserDTO(id, email, name);
     }

@@ -25,18 +25,18 @@ public class UserControllerTest {
 
     @Test
     public void shouldReturnUserInfoWhenAuthenticated() throws Exception {
-        // 1. Mock Jwt and its claims
+
         Jwt mockJwt = mock(Jwt.class);
         when(mockJwt.getSubject()).thenReturn("testUserId");
         when(mockJwt.getClaimAsString("email")).thenReturn("test@example.com");
         when(mockJwt.getClaimAsString("name")).thenReturn("Test User");
 
-        // 2. Perform GET request to /me with the mocked Jwt principal
+
         mockMvc.perform(get("/me")
-                        .with(jwt().jwt(mockJwt))) // Use jwt() post-processor
-                // 3. Verify HTTP 200 OK status
+                        .with(jwt().jwt(mockJwt)))
+
                 .andExpect(status().isOk())
-                // 4. Verify response body
+
                 .andExpect(jsonPath("$.id").value("testUserId"))
                 .andExpect(jsonPath("$.email").value("test@example.com"))
                 .andExpect(jsonPath("$.name").value("Test User"));
