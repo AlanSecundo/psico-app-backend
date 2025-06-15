@@ -1,4 +1,4 @@
-package com.example.psicoclinic.psicoapp;
+package com.psicoclinic.psicoapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
