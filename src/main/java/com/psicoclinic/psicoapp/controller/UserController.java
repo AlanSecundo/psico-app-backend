@@ -11,6 +11,14 @@ import com.psicoclinic.psicoapp.dto.UserDTO; // Added import
 @RequestMapping("") // Changed from "/users" to "" to make the endpoint /me
 public class UserController {
 
+    /****
+     * Retrieves the authenticated user's information from the JWT token.
+     *
+     * Extracts the user ID, email, and name from the provided JWT and returns them as a UserDTO.
+     *
+     * @param principal the authenticated JWT token containing user claims
+     * @return a UserDTO with the user's ID, email, and name
+     */
     @GetMapping("/me")
     public UserDTO getUserInfo(@AuthenticationPrincipal Jwt principal) {
         String id = principal.getSubject(); // 'sub' claim is typically used for user ID
