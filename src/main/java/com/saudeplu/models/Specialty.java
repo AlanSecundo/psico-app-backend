@@ -1,8 +1,14 @@
 package com.saudeplu.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.util.UUID;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "specialties")
 public class Specialty {
@@ -13,22 +19,4 @@ public class Specialty {
 
     @Column(nullable = false, unique = true)
     private String name;
-
-    // Getters and setters
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
