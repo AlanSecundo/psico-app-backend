@@ -1,6 +1,7 @@
 # ADR-001: User Authentication with Keycloak
 
 **Date:** 06/08/2025  
+**Status:** Accepted  
 **Decision:** Use **Keycloak** as the authentication provider for the management application for psychologists.
 
 ## Context

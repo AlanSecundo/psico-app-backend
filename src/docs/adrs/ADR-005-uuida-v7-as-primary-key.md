@@ -1,4 +1,4 @@
-# ADR-006: Use of UUID v7 as the Primary Key for Entities
+# ADR-005: Use of UUID v7 as the Primary Key for Entities
 
 **Date:** 2025-06-08  
 **Status:** Accepted  

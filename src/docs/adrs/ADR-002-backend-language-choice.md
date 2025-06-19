@@ -1,6 +1,7 @@
 # ADR-002: Backend Language Choice - Java vs Kotlin
 
 **Date:** 06/08/2025  
+**Status:** Accepted  
 **Decision:** Use **Java 21** as the primary backend language for the application.
 
 ## Context

@@ -1,6 +1,7 @@
 # ADR-004: Multi-Tenant Architecture with a Single Realm in Keycloak
 
 **Date:** 06/08/2025  
+**Status:** Accepted  
 **Decision:** Use a single Realm in Keycloak and implement multi-tenant data isolation within the application.
 
 ## Context

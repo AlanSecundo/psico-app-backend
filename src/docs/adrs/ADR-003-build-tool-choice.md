@@ -1,6 +1,7 @@
 # ADR-003: Build Tool Choice - Maven vs Gradle (Groovy)
 
-**Date:** 06/08/2025  
+**Date:** 06/08/2025
+**Status:** Accepted  
 **Decision:** Use **Gradle with Groovy DSL** as the build tool for the project.
 
 ## Context
