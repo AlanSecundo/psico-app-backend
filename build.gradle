@@ -2,6 +2,8 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.5.0'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'jacoco'
+	id 'org.sonarqube' version '4.4.1.3373'
 }
 
 group = 'com.psicoclinic'
@@ -11,6 +13,10 @@ java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
 	}
+}
+
+jacoco {
+	toolVersion = "0.8.10"
 }
 
 repositories {
@@ -27,25 +33,47 @@ dependencies {
 	implementation 'org.flywaydb:flyway-database-postgresql'
 
 	implementation 'org.keycloak:keycloak-spring-boot-starter:24.0.4'
+	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
 	runtimeOnly 'org.postgresql:postgresql'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
-	testImplementation 'com.h2database:h2' // Added H2 for tests
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	runtimeOnly 'com.h2database:h2'
 
 	compileOnly 'org.projectlombok:lombok:1.18.30'
-	annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
-	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	annotationProcessor 'org.projectlombok:lombok:1.18.30'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 }
 
-tasks.named('test') {
+tasks.named("test").configure {
 	useJUnitPlatform()
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
 	options.annotationProcessorPath = configurations.annotationProcessor
+}
+
+tasks.named("jacocoTestReport").configure {
+	reports {
+		xml.required.set(true)
+		html.required.set(true)
+	}
+	finalizedBy(tasks.named("openJacocoHtml"))
+}
+
+tasks.register("openJacocoHtml") {
+	doLast {
+		def reportFile = layout.buildDirectory.file("reports/jacoco/test/html/index.html").get().asFile
+		if (reportFile.exists()) {
+			java.awt.Desktop.desktop.browse(reportFile.toURI())
+		} else {
+			println "Relatório não encontrado: ${reportFile}"
+		}
+	}
 }
