@@ -1,52 +1,61 @@
+
 # ADR-006: Standard Module Folder Structure
 
-**Date:** 2025-06-08  
+**Date:** 2025-06-22  
 **Status:** Accepted  
-**Decision:** All modules should follow a specific structure. 
+**Decision:** All modules must follow a specific structure.
 
 ## Context
-To maintain a clean, modular, and scalable architecture across the project, we decided to standardize the folder structure for all business modules (e.g., psychologist, patient, clinic).
+To maintain a clean, modular, and scalable architecture, we decided to standardize the folder structure for all domain modules (e.g., psychologist, patient, clinic).
 
-Each module is responsible for its own domain logic and should follow a clear separation of concerns to improve readability, testing, and developer onboarding.
+Each module is responsible for its domain logic, clearly separating concerns to enhance readability, testability, and developer onboarding.
 
 ## Decision
-All domain modules should follow the structure below:
+All domain modules must adhere to the following standardized structure:
 
 ```
 <module>/
-├── controllers/               # HTTP entry points (e.g., REST controllers)
-├── usecases/                  # Application-specific orchestration logic
-├── services/                  # Business logic services (reusable within the module)
-├── repositories/               # Interfaces and implementations for data access
-├── dtos/                      # Data Transfer Objects (input/output models)
-├── mappers/                   # Mapping logic between entities and DTOs
-├── entities/                   # Domain entities (e.g., JPA annotated classes)
-└── config/                   # Module-specific configuration (optional)
+├── adapter/
+│   └── controllers/            # HTTP entry points (e.g., REST controllers)
+├── application/
+│   └── usecases/               # Application-specific orchestration logic
+├── domain/
+│   ├── services/               # Domain-specific business logic
+│   ├── repositories/           # Interfaces for data access
+│   ├── entities/               # Domain entities (e.g., JPA annotated classes)
+│   └── enums/                  # Domain enums (optional)
+├── infrastructure/
+│   ├── persistence/            # Repository implementations and data sources
+│   ├── mappers/                # Mapping logic between entities and DTOs
+│   └── config/                 # Module-specific configuration (optional)
+└── dtos/                       # Data Transfer Objects (input/output models)
 ```
 
 ### Responsibilities
 
-- **controller**: Handles HTTP requests and delegates logic.
-- **usecase**: Coordinates the application flow; acts as the "application service" layer.
-- **service**: Contains reusable domain logic within the module.
-- **repository**: Abstracts persistence and enables swapping data sources if needed.
-- **dto**: Encapsulates input and output models to decouple API and domain layers.
-- **mapper**: Transforms data between domain models and DTOs.
-- **entity**: Represents the persistent domain structure.
-- **config**: Holds configuration specific to the module (if any).
+- **adapter/controllers**: Handles HTTP requests and delegates to use cases.
+- **application/usecases**: Coordinates application flow; orchestrates domain services and repositories.
+- **domain/services**: Encapsulates domain-specific business logic, reusable within the module.
+- **domain/repositories**: Defines interfaces for persistence, ensuring decoupling from implementation.
+- **domain/entities**: Represents persistent domain structures.
+- **domain/enums**: Contains enumerations specific to the domain (optional).
+- **infrastructure/persistence**: Implements repositories and integrates with external data sources.
+- **infrastructure/mappers**: Manages transformations between domain entities and DTOs.
+- **infrastructure/config**: Module-specific configuration settings (optional).
+- **dtos**: Data structures used for input/output across layers, decoupling API and domain logic.
 
 ## Positive Consequences
-- Promotes consistency across modules.
-- Facilitates onboarding and maintenance.
-- Encourages separation of concerns and testability.
-- Modules can evolve independently and scale better.
+- Ensures consistency across modules.
+- Facilitates easier onboarding and maintenance.
+- Promotes strong separation of concerns and better testability.
+- Supports independent evolution and scalability of modules.
 
 ## Negative Trade-offs
-- **Increased boilerplate**: Requires creation of many files for even simple features.
-- **Overengineering risk**: For very small modules, this structure may feel too heavy or redundant.
-- **Initial complexity**: New contributors may need guidance to understand the role of each layer.
-- **Cross-module logic**: Logic spanning multiple modules might require additional orchestration layers or shared abstractions, increasing complexity.
+- **Increased boilerplate**: Many files must be created, even for simple features.
+- **Risk of overengineering**: Smaller modules might find this structure overly complex or redundant.
+- **Initial complexity**: New contributors may require guidance to understand layer responsibilities.
+- **Cross-module logic complexity**: Logic spanning multiple modules may necessitate additional orchestration layers or shared abstractions, potentially increasing complexity.
 
 ## Alternatives Considered
-- Flat structure with mixed responsibilities: rejected due to poor maintainability.
-- Grouping by technical role globally (e.g., one `controller` package for all modules): rejected in favor of domain-oriented modularization.
+- Flat structure mixing responsibilities: rejected due to maintainability concerns.
+- Global grouping by technical role (e.g., single `controller` package for all modules): rejected in favor of domain-oriented modularization.

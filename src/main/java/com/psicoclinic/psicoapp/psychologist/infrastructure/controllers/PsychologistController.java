@@ -1,7 +1,7 @@
-package com.psicoclinic.psicoapp.psychologist.controllers;
+package com.psicoclinic.psicoapp.psychologist.infrastructure.controllers;
 
-import com.psicoclinic.psicoapp.psychologist.dtos.PsychologistDTO;
-import com.psicoclinic.psicoapp.psychologist.usecases.GetOrCreatePsychologistUseCase;
+import com.psicoclinic.psicoapp.psychologist.application.dtos.PsychologistDTO;
+import com.psicoclinic.psicoapp.psychologist.application.usecases.GetOrCreatePsychologistUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

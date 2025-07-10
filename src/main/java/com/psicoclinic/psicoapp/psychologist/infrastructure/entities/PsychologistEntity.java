@@ -1,4 +1,4 @@
-package com.psicoclinic.psicoapp.psychologist.entities;
+package com.psicoclinic.psicoapp.psychologist.infrastructure.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Psychologist {
+public class PsychologistEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

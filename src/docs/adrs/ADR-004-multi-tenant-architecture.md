@@ -7,7 +7,7 @@
 ## Context
 - The application is a SaaS platform for psychologists, where each professional has login access and isolated data.
 - Keycloak will be used as the identity server, providing authentication and access control via JWT.
-- The question arose between using multiple Realms (one per psychologist) or a single Realm with all users.
+- The question arose between using multiple Realms (one per psychologistEntity) or a single Realm with all users.
 
 ## Considered Alternatives
 
@@ -32,6 +32,6 @@ Data isolation will be implemented in the backend using `keycloakId` (the JWT to
 - Future potential to segment by groups, roles, or subscription plans within the same Realm
 
 ## Note on "Tenant"
-- A "Tenant" represents each logged-in psychologist with their own data.
+- A "Tenant" represents each logged-in psychologistEntity with their own data.
 - "Multi-Tenant" = all users share the same application, but data is isolated.
 - "Single-Tenant" with multiple Realms doesn't quite apply here, as each Realm would still contain multiple users. Thus, using multiple Realms would be a form of multi-tenant **with physical authentication isolation**, but **not necessarily single-tenant**.

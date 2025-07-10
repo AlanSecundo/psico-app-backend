@@ -1,4 +1,4 @@
-package com.psicoclinic.psicoapp.psychologist.dtos;
+package com.psicoclinic.psicoapp.psychologist.application.dtos;
 
 import java.util.UUID;
 
