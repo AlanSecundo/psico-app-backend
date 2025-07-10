@@ -1,0 +1,95 @@
+Table psychologist {
+  id uuid [pk, note: "UUID v7, generated in backend"]
+  external_id varchar(255) [not null, unique, note: "Maps to Keycloak 'sub' claim"]
+  name varchar(255) [not null]
+  email varchar(255) [not null]
+  crp varchar(50)
+  phone varchar(20)
+  on_board_completed boolean [not null, default: false]
+  created_at timestamp [default: `now()`]
+  edited_at timestamp
+}
+
+Table clinic_profile {
+  id uuid [pk]
+  psychologist_id uuid [unique, not null, ref: > psychologist.id]
+  clinic_name varchar(255)
+  care_type varchar(20) [not null, note: "IN_PERSON, ONLINE, HIBRID"]
+  clinic_status varchar(50) [not null, note: "INITIAL, FEW_PATIENTS, REGULAR_CAN_GROW, FULL_SCHEDULE, EXPANSION"]
+  session_price numeric(10,2) [not null]
+}
+
+Table specialty {
+  id uuid [pk]
+  name varchar(100) [not null, unique]
+}
+
+Table clinic_profile_specialty {
+  clinic_profile_id uuid [not null, ref: > clinic_profile.id]
+  specialty_id uuid [not null, ref: > specialty.id]
+}
+
+Table customer {
+  id uuid [pk]
+  clinic_profile_id uuid [not null, ref: > clinic_profile.id]
+  full_name varchar(255) [not null]
+  birth_date date [not null]
+  cpf varchar(14) [not null, unique]
+  gender varchar(20)
+  email varchar(255)
+  phone varchar(20)
+  address text
+  has_representative boolean [not null, default: false]
+  is_profile_complete boolean [not null, default: false]
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp
+}
+
+Table representative {
+  id uuid [pk]
+  customer_id uuid [not null, ref: > customer.id]
+  full_name varchar(255) [not null]
+  cpf varchar(14)
+  relationship varchar(100)
+  phone varchar(20)
+  email varchar(255)
+  is_legal_responsible boolean [default: false]
+  is_financial_responsible boolean [default: false]
+}
+
+Table initial_assessment {
+  id uuid [pk]
+  customer_id uuid [not null, unique, ref: > customer.id]
+  main_complaint text
+  referred_by varchar(255)
+  psychological_history text
+  medication_use text
+  medical_diagnosis text
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp
+}
+
+Table payment_details {
+  id uuid [pk]
+  customer_id uuid [not null, unique, ref: > customer.id]
+  payment_method varchar(50)
+  session_value numeric(10,2)
+  session_frequency varchar(50)
+  fixed_schedule varchar(100)
+  health_plan varchar(100)
+  created_at timestamp [not null, default: `now()`]
+  updated_at timestamp
+}
+
+Table flyway_schema_history {
+  installed_rank int [pk]
+  version varchar(50)
+  description varchar(200)
+  type varchar(20)
+  script varchar(1000)
+  checksum int
+  installed_by varchar(100)
+  installed_on timestamp
+  execution_time int
+  success boolean
+}
