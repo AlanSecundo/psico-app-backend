@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS payment_details (
     id UUID PRIMARY KEY,
-    customer_id UUID NOT NULL UNIQUE REFERENCES customer(id) ON DELETE CASCADE,
+    patient_id UUID NOT NULL UNIQUE REFERENCES patient(id) ON DELETE CASCADE,
     payment_method VARCHAR(50),
     session_value NUMERIC(10, 2),
     session_frequency VARCHAR(50),

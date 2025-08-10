@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS representative (
     id UUID PRIMARY KEY,
-    customer_id UUID NOT NULL REFERENCES customer(id) ON DELETE CASCADE,
+    patient_id UUID NOT NULL REFERENCES patient(id) ON DELETE CASCADE,
     full_name VARCHAR(255) NOT NULL,
     cpf VARCHAR(14),
     relationship VARCHAR(100),

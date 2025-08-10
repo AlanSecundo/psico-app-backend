@@ -9,8 +9,8 @@ This project uses a relational database with entities organized by domain, refle
 - **Psychologist**: Represents the professional authenticated via Keycloak.
 - **ClinicProfile**: Stores clinic-level data such as name, care type, session price, and specialties.
 - **Specialty**: Lists clinical specialties (e.g., CBT, Neuropsychology).
-- **Customer**: Represents the client/patient associated with a clinic.
-- **Representative**: Legal or financial representative of a customer.
+- **Patient**: Represents the client/patient associated with a clinic.
+- **Representative**: Legal or financial representative of a patient.
 - **InitialAssessment**: Stores the initial clinical evaluation data.
 - **PaymentDetails**: Stores session pricing, frequency, and payment method.
 

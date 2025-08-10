@@ -29,7 +29,7 @@ Table clinic_profile_specialty {
   specialty_id uuid [not null, ref: > specialty.id]
 }
 
-Table customer {
+Table patient {
   id uuid [pk]
   clinic_profile_id uuid [not null, ref: > clinic_profile.id]
   full_name varchar(255) [not null]
@@ -47,7 +47,7 @@ Table customer {
 
 Table representative {
   id uuid [pk]
-  customer_id uuid [not null, ref: > customer.id]
+  patient_id uuid [not null, ref: > patient.id]
   full_name varchar(255) [not null]
   cpf varchar(14)
   relationship varchar(100)
@@ -59,7 +59,7 @@ Table representative {
 
 Table initial_assessment {
   id uuid [pk]
-  customer_id uuid [not null, unique, ref: > customer.id]
+  patient_id uuid [not null, unique, ref: > patient.id]
   main_complaint text
   referred_by varchar(255)
   psychological_history text
@@ -71,7 +71,7 @@ Table initial_assessment {
 
 Table payment_details {
   id uuid [pk]
-  customer_id uuid [not null, unique, ref: > customer.id]
+  patient_id uuid [not null, unique, ref: > patient.id]
   payment_method varchar(50)
   session_value numeric(10,2)
   session_frequency varchar(50)

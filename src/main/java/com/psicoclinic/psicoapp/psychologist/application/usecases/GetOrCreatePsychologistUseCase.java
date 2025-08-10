@@ -5,9 +5,9 @@ import com.psicoclinic.psicoapp.psychologist.application.ports.PsychologistRepos
 import com.psicoclinic.psicoapp.psychologist.domain.model.Psychologist;
 import com.psicoclinic.psicoapp.psychologist.application.dtos.PsychologistDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class GetOrCreatePsychologistUseCase {
 
